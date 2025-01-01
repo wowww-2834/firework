@@ -2284,24 +2284,20 @@ if (IS_HEADER) {
     }, 0);
 }
 
-document.addEventListener('click', (event) => {
-    // Get the click position
-    const x = event.clientX;
-    const y = event.clientY;
-    
-    // Launch fireworks at the click position
-    launchFireworksAtPosition(x, y);
+document.addEventListener("click", function(event) {
+    createFirework(event.clientX, event.clientY);
 });
 
-function launchFireworksAtPosition(x, y) {
-    const shell = new Shell(shellFromConfig(shellSizeSelector()));
-    const w = mainStage.width;
-    const h = mainStage.height;
+function createFirework(x, y) {
+    const firework = document.createElement("div");
+    firework.classList.add("firework");
 
-    // Normalize the coordinates to be between 0 and 1
-    const normalizedX = x / w;
-    const normalizedY = 1 - (y / h);
+    firework.style.left = `${x}px`;
+    firework.style.top = `${y}px`;
 
-    // Launch the shell
-    shell.launch(normalizedX, normalizedY);
+    document.body.appendChild(firework);
+
+    firework.addEventListener('animationend', () => {
+        firework.remove();
+    });
 }
